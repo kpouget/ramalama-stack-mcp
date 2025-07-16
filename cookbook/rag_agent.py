@@ -23,7 +23,6 @@ def create_http_client():
         timeout=2000.0,
     )
 
-
 client = create_http_client()
 
 for vector_db_id in client.vector_dbs.list():
@@ -75,8 +74,6 @@ turn_response = agent.create_turn(
     messages=[{"role": "user", "content": "Tell me about Llama models"}],
     stream=False,
 )
-
-print(turn_response)
 
 # Log and process the response
 for log in AgentEventLogger().log(turn_response):
