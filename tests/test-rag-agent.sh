@@ -16,7 +16,6 @@ function test_rag_agent {
 main() {
   echo "===> starting 'test-rag'..."
   export INFERENCE_MODEL=llama3.2
-  export INFERENCE_MODEL_NO_COLON=rama
   echo "Env vars" $INFERENCE_MODEL $INFERENCE_MODEL_NO_COLON
   # Check if services are already running (from previous tests)
   if curl -s http://localhost:8321/v1/health >/dev/null 2>&1 && curl -s http://localhost:8080/health >/dev/null 2>&1; then
