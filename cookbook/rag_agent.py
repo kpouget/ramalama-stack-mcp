@@ -5,6 +5,9 @@ from llama_stack_client.types.agent_create_params import AgentConfig
 from llama_stack_client import Agent, AgentEventLogger, RAGDocument, LlamaStackClient
 import json
 
+# To run this script use
+# uv run rag_agent.py
+
 import logging
 logging.basicConfig(
     level=logging.DEBUG,  # Show everything from DEBUG and up
