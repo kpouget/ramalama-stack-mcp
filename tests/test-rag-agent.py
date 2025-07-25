@@ -1,7 +1,6 @@
 import uuid
 import logging
 from llama_stack_client import Agent, AgentEventLogger, RAGDocument, LlamaStackClient
-from llama_stack_client.types.tool_definition import ToolDefinition
 
 # Setup logging
 logging.basicConfig(
@@ -35,7 +34,7 @@ client.vector_dbs.register(
 )
 
 # Ingest doc
-source = "https://www.paulgraham.com/do.html"
+source = "https://github.com/containers/podman-desktop-extension-ai-lab/blob/main/README.md"
 print("rag_tool> Ingesting document:", source)
 document = RAGDocument(
     document_id="document_1",
@@ -49,32 +48,41 @@ client.tool_runtime.rag_tool.insert(
     documents=[document], vector_db_id=vector_db_id, chunk_size_in_tokens=200,
 )
 
-# Tool definition (this is the critical fix)
-tools = [
-    ToolDefinition(
-        name="builtin::rag/knowledge_search",
-        parameters={"vector_db_ids": [vector_db_id]},
-    )
-]
+print("\nCreated Vectordb ", vector_db_id)
 
-# Create agent
+# Cleanup Agents
+response = client.agents.list()
+for agent in response.data:
+    agent_id = agent["agent_id"]
+    print(f"Unregistering agent: {agent_id}")
+    client.agents.delete(agent_id=agent_id)
+
 agent = Agent(
     client=client,
     model=INFERENCE_MODEL,
     instructions="You are a helpful assistant.",
     enable_session_persistence=False,
-    tools=tools,
-    sampling_params={"max_tokens": 2048},
+    tools=[{ 
+        "name": "builtin::rag/knowledge_search",
+        "args": {"vector_db_ids": [vector_db_id]}
+    }],
+    sampling_params={
+        "max_tokens": 2048,
+    },
 )
+print("\nCurrent Agent: ")
+print(agent.agent_id)
 
 # Start session
 session_id = agent.create_session(session_name="rag")
 
+print("\nStarted Agent Session: ", session_id)
+
 # Run turn
 turn_response = agent.create_turn(
     session_id=session_id,
-    messages=[{"role": "user", "content": "Tell me about llama models"}],
-    stream=False,
+    messages=[{"role": "user", "content": "What is podman desktop ai lab and what is it used for"}],
+    stream=True,
 )
 
 # Print response
