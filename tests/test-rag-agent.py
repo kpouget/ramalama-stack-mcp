@@ -8,7 +8,7 @@ logging.basicConfig(
     format="%(asctime)s [%(levelname)s] %(message)s",
 )
 
-INFERENCE_MODEL = "qwen2.5"
+INFERENCE_MODEL = "llama3.2"
 LLAMA_STACK_PORT = 8321
 
 def create_http_client():
