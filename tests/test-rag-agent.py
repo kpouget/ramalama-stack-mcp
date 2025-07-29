@@ -8,7 +8,7 @@ logging.basicConfig(
     format="%(asctime)s [%(levelname)s] %(message)s",
 )
 
-INFERENCE_MODEL = "llama3.2"
+INFERENCE_MODEL = "qwen2.5"
 LLAMA_STACK_PORT = 8321
 
 def create_http_client():
@@ -81,10 +81,33 @@ print("\nStarted Agent Session: ", session_id)
 # Run turn
 turn_response = agent.create_turn(
     session_id=session_id,
-    messages=[{"role": "user", "content": "What is podman desktop ai lab and what is it used for"}],
+    messages=[{"role": "user", "content": "What is podman desktop ai lab"}],
     stream=True,
 )
 
 # Print response
 for log in AgentEventLogger().log(turn_response):
     log.print()
+
+# curl -N -X POST http://localhost:8321/v1/agents/a7b66240-0fc2-416b-b803-0f652814da83/session/f44c0d82-8048-429f-81f6-74fb43858648/turn \
+#   -H "Content-Type: application/json" \
+#   -d '{
+#     "messages": [
+#       {
+#         "role": "user",
+#         "content": "What is podman desktop ai lab and what is it used for"
+#       }
+#     ],
+#     "stream": true
+#   }'
+
+# We need to change inline milvus to remote milvus and spin up a seperate container. Maybe then we can use hybrid search?
+# vector_io:
+#   - provider_id: milvus
+#     provider_type: inline::milvus
+#     config:
+#       db_path: ${env.SQLITE_STORE_DIR:=~/.llama/distributions/ramalama/milvus.db}
+#       kvstore:
+#         type: sqlite
+#         namespace: null
+#         db_path: ${env.SQLITE_STORE_DIR:=~/.llama/distributions/ramalama/milvus_registry.db}
