@@ -1,0 +1,2 @@
+curl --create-dirs --output ~/.llama/providers.d/remote/inference/ramalama.yaml https://raw.githubusercontent.com/containers/ramalama-stack/refs/tags/v0.2.5/src/ramalama_stack/providers.d/remote/inference/ramalama.yaml
+curl --create-dirs --output ~/.llama/distributions/ramalama/ramalama-run.yaml https://raw.githubusercontent.com/containers/ramalama-stack/refs/tags/v0.2.5/src/ramalama_stack/ramalama-run.yaml
