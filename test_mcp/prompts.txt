@@ -1,0 +1,5 @@
+move forward of 10 steps
+turn left
+move forward of 5 steps
+turn right
+turn around

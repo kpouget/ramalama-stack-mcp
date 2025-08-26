@@ -1,1 +1,1 @@
-ramalama serve qwen --network=bridge
+ramalama serve "$(cat model.txt)" --network=bridge
