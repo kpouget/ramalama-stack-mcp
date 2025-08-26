@@ -11,7 +11,6 @@ logging.basicConfig(
 )
 
 INFERENCE_MODEL = "qwen"
-#wINFERENCE_MODEL = "gemini/gemini-1.5-flash"
 LLAMA_STACK_PORT = 8321
 
 # ---------------------------
@@ -37,10 +36,11 @@ for toolgroup in client.toolgroups.list():
 # Register your test MCP server
 # ---------------------------
 client.toolgroups.register(
-    toolgroup_id="mcp::demo",
+    toolgroup_id="mcp::robot",
     provider_id="model-context-protocol",
     mcp_endpoint={"uri": "http://127.0.0.1:8000/sse"},
 )
+
 # ---------------------------
 # Cleanup previous agents
 # ---------------------------
@@ -57,7 +57,7 @@ agent = Agent(
     model=INFERENCE_MODEL,
     instructions="You are a helpful assistant with access to MCP tools.",
     enable_session_persistence=False,
-    tools=["mcp::demo"],  # just the toolgroup identifier
+    tools=["mcp::robot"],  # just the toolgroup identifier
     sampling_params={"max_tokens": 2048},
 )
 print("\nCurrent Agent ID: ", agent.agent_id)

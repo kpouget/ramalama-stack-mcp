@@ -1,2 +1,3 @@
 cd ..
-uv run llama stack run ~/.llama/distributions/ramalama/ramalama-run.yaml --image-type venv
+export INFERENCE_MODEL=qwen
+uv run llama stack run test_mcp/run.yaml --image-type venv
